@@ -11,10 +11,10 @@ and write a README (approach, results, how to run training and the API). Deliver
 |---|---|
 | 1. Repo and environment setup | done (commit `4fd4208`) |
 | 2. EDA notebook (`notebooks/01_eda.ipynb`) | done (commit `0f3fe0b`) |
-| 3. Evaluation design (split, metrics) | **next**, to discuss |
-| 4. Baselines, then iteration (`notebooks/02_modeling.ipynb`) | todo |
-| 5. Error analysis | todo |
-| 6. Training pipeline in `src/txlabel/` + CLI | todo |
+| 3. Evaluation design (split, metrics) | first version done: stratified random 80/20 after dedup, macro-F1 primary; grouped/temporal splits still open |
+| 4. Baselines + first XGBoost (`notebooks/02_modeling.ipynb`) | done: accuracy 0.934, macro-F1 0.918 (lookup baseline 0.909 / 0.886) |
+| 5. Error analysis | brief version done (in notebook 02, section 5); ideas listed in its section 6 |
+| 6. Training pipeline in `src/txlabel/` + CLI | **next**: `preprocessing.py` and `model.py` already exist (shared with the notebook); still needs `train.py` CLI, artifact + metadata saving |
 | 7. Prediction API (FastAPI) + tests | todo |
 | 8. README, Dockerfile, final fresh-clone check | todo |
 
