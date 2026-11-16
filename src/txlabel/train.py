@@ -1,10 +1,11 @@
 """Training entry point.
 
     uv run python -m txlabel.train                      # defaults: data/raw CSV -> models/ + reports/
-    uv run python -m txlabel.train --refit-on-all       # also refit on 100% of the data for the saved model
+    uv run python -m txlabel.train --no-refit           # save the train-split model instead of refitting on all rows
 
 Steps: load -> deduplicate on ref_id -> stratified train/test split -> fit on train -> evaluate on the held-out test
--> save model + metadata (+ metrics and per-class report).
+-> refit on 100% of the deduplicated data (the model that is served) -> save model + metadata (+ metrics and report).
+The reported metrics are those of the train-only model on the held-out test split.
 """
 
 from __future__ import annotations
@@ -56,7 +57,7 @@ def run_training(
     reports_dir: str | Path = REPO_ROOT / "reports",
     seed: int = 42,
     test_size: float = 0.2,
-    refit_on_all: bool = False,
+    refit_on_all: bool = True,
     xgb_params: dict | None = None,
 ) -> dict:
     """Train, evaluate on the held-out test split, save artifacts. Returns the metadata dict."""
@@ -103,6 +104,7 @@ def run_training(
         "classes": final_model.classes_,
         "features": {"text": TEXT_COL, "categorical": CATEGORICAL_COLS, "numeric": NUMERIC_COLS},
         "xgboost_params": {**DEFAULT_XGB_PARAMS, **xgb_params},
+        "heldout_test_metrics_model": "trained on the train split only, evaluated on the held-out test split",
         "heldout_test_metrics": {
             t: {k: v for k, v in metrics[t].items() if k != "per_class"} for t in ("minor", "major")
         },
@@ -125,7 +127,8 @@ def main(argv: list[str] | None = None) -> None:
     p.add_argument("--reports-dir", default=str(REPO_ROOT / "reports"), help="where to write metrics and reports")
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--test-size", type=float, default=0.2)
-    p.add_argument("--refit-on-all", action="store_true", help="refit the final model on all rows after evaluation")
+    p.add_argument("--no-refit", dest="refit_on_all", action="store_false",
+                   help="save the train-split model (default: refit on all rows after evaluation)")
     args = p.parse_args(argv)
 
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s", datefmt="%H:%M:%S")

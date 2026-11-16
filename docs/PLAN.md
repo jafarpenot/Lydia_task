@@ -14,9 +14,9 @@ and write a README (approach, results, how to run training and the API). Deliver
 | 3. Evaluation design (split, metrics) | first version done: stratified random 80/20 after dedup, macro-F1 primary; grouped/temporal splits still open |
 | 4. Baselines + first XGBoost (`notebooks/02_modeling.ipynb`) | done: accuracy 0.934, macro-F1 0.918 (lookup baseline 0.909 / 0.886) |
 | 5. Error analysis | brief version done (in notebook 02, section 5); ideas listed in its section 6 |
-| 6. Training pipeline in `src/txlabel/` + CLI | **next**: `preprocessing.py` and `model.py` already exist (shared with the notebook); still needs `train.py` CLI, artifact + metadata saving |
-| 7. Prediction API (FastAPI) + tests | todo |
-| 8. README, Dockerfile, final fresh-clone check | todo |
+| 6. Training pipeline in `src/txlabel/` + CLI | done: `make train` (train/eval on held-out test, then refit on all rows for the saved model; metadata + reports) |
+| 7. Prediction API (FastAPI) + tests | done: `make serve`; `POST /predict` (one category + confidence + derived major), `GET /health`, `GET /model-info`; 33 tests pass |
+| 8. README, Dockerfile, final fresh-clone check | **next** |
 
 ## Decisions made
 
@@ -52,6 +52,9 @@ and write a README (approach, results, how to run training and the API). Deliver
   - A random split has only 5.7% unseen merchants; performance on new merchants is worse (29% error vs 4-7%). Grouped-by-merchant and temporal splits still to evaluate.
 - Ideas not done: see `notebooks/02_modeling.ipynb`, section 6.
 - Production notes: pickle tied to library versions (recorded in metadata), parity tests, monitoring and drift, retraining, new merchants, feedback loop, portable formats.
+- The served model is refit on all deduplicated rows; reported metrics are those of the train-only model on the held-out test split (default of `make train`, `--no-refit` to disable).
+- API contract: required `amount_value`, `created_at`, and at least one of `merchant_name` / `title`; optional entry method, digitalization, recurring; extra fields ignored; 422 on invalid input, 503 if the model is not loaded.
+- Decide whether to commit `models/model.joblib` (about 5 MB) so the API runs right after cloning, or require `make train` first.
 - Email answers: time spent and quality rating.
 
 ## Key EDA findings (details in `notebooks/01_eda.ipynb`, section 12)

@@ -19,7 +19,7 @@ def small_csv(tmp_path_factory):
 
 
 def test_training_saves_artifacts_and_is_reproducible(small_csv, tmp_path):
-    kw = dict(data_path=small_csv, seed=1, xgb_params={"n_estimators": 20})
+    kw = dict(data_path=small_csv, seed=1, refit_on_all=False, xgb_params={"n_estimators": 20})
     m1 = run_training(model_dir=tmp_path / "m1", reports_dir=tmp_path / "r1", **kw)
     m2 = run_training(model_dir=tmp_path / "m2", reports_dir=tmp_path / "r2", **kw)
 
@@ -36,7 +36,7 @@ def test_training_saves_artifacts_and_is_reproducible(small_csv, tmp_path):
 
 
 def test_saved_model_reloads_and_predicts(small_csv, tmp_path):
-    run_training(small_csv, tmp_path / "m", tmp_path / "r", seed=1, xgb_params={"n_estimators": 20})
+    run_training(small_csv, tmp_path / "m", tmp_path / "r", seed=1, refit_on_all=False, xgb_params={"n_estimators": 20})
     model, meta = load_artifacts(tmp_path / "m")
     row = load_raw(small_csv).head(5)
     pred = model.predict(row)
@@ -44,6 +44,11 @@ def test_saved_model_reloads_and_predicts(small_csv, tmp_path):
     assert meta["classes"] == model.classes_
 
 
-def test_refit_on_all_changes_training_set_only(small_csv, tmp_path):
-    meta = run_training(small_csv, tmp_path / "m", tmp_path / "r", seed=1, refit_on_all=True, xgb_params={"n_estimators": 20})
-    assert meta["saved_model_trained_on"] == "all deduplicated rows"
+def test_refit_on_all_is_the_default_and_keeps_heldout_metrics(small_csv, tmp_path):
+    kw = dict(data_path=small_csv, seed=1, xgb_params={"n_estimators": 20})
+    refit = run_training(model_dir=tmp_path / "a", reports_dir=tmp_path / "ra", **kw)
+    no_refit = run_training(model_dir=tmp_path / "b", reports_dir=tmp_path / "rb", refit_on_all=False, **kw)
+    assert refit["saved_model_trained_on"] == "all deduplicated rows"
+    assert no_refit["saved_model_trained_on"] == "train split only"
+    # the reported metrics always come from the train-only model, so they are identical
+    assert refit["heldout_test_metrics"] == no_refit["heldout_test_metrics"]

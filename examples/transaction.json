@@ -1,0 +1,9 @@
+{
+  "merchant_name": "CARREFOUR CITY",
+  "title": "CARREFOUR CITY",
+  "amount_value": -12.5,
+  "created_at": "2026-04-28T11:45:21Z",
+  "merchant_pan_entry_method": "CHIP_CONTACTLESS",
+  "digitalization_type": "apple_pay",
+  "pfm_recurring_frequency": ""
+}
