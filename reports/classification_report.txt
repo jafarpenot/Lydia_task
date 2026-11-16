@@ -1,0 +1,36 @@
+=== minor_category ===
+                    precision    recall  f1-score   support
+
+               atm      0.972     1.000     0.986        70
+           betting      0.924     0.850     0.885       100
+       hairdresser      1.000     0.875     0.933        24
+        multimedia      0.938     0.974     0.955       308
+   others_shopping      0.917     0.564     0.698        39
+        pharmacies      0.960     0.923     0.941        26
+            refund      1.000     1.000     1.000        24
+       restaurants      0.911     0.897     0.904       252
+      supermarkets      0.929     0.985     0.956       468
+tolls_gas_stations      0.975     0.907     0.940        86
+   transport_means      0.922     0.911     0.917       169
+      travel_means      0.938     0.857     0.896        35
+
+          accuracy                          0.934      1601
+         macro avg      0.949     0.895     0.918      1601
+      weighted avg      0.934     0.934     0.932      1601
+
+=== major_category (derived from minor) ===
+                        precision    recall  f1-score   support
+
+         entertainment      0.978     0.988     0.983       408
+               finance      0.972     1.000     0.986        70
+             groceries      0.929     0.985     0.956       468
+                  none      1.000     1.000     1.000        24
+restaurants_bars_cafes      0.911     0.897     0.904       252
+             self_care      0.978     0.900     0.938        50
+              shopping      0.917     0.564     0.698        39
+        transportation      0.943     0.914     0.928       255
+                travel      0.938     0.857     0.896        35
+
+              accuracy                          0.946      1601
+             macro avg      0.952     0.901     0.921      1601
+          weighted avg      0.946     0.946     0.944      1601

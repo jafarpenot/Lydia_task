@@ -1,0 +1,78 @@
+{
+  "model_name": "refund rule + XGBoost",
+  "txlabel_version": "0.1.0",
+  "git_commit": "3a19a6e",
+  "trained_at": "2026-11-16T04:07:56+00:00",
+  "saved_model_trained_on": "all deduplicated rows",
+  "seed": 42,
+  "test_size": 0.2,
+  "data": {
+    "path": "data/raw/transaction-dataset-1.csv",
+    "sha256": "e00c3d249503c97dc64e5b014f6871e6a3114019795f0c2a7276e3cf4d5a1860",
+    "rows_raw": 8121,
+    "rows_deduplicated": 8001,
+    "n_train": 6400,
+    "n_test": 1601
+  },
+  "classes": [
+    "atm",
+    "betting",
+    "hairdresser",
+    "multimedia",
+    "others_shopping",
+    "pharmacies",
+    "restaurants",
+    "supermarkets",
+    "tolls_gas_stations",
+    "transport_means",
+    "travel_means",
+    "refund"
+  ],
+  "features": {
+    "text": "name_norm",
+    "categorical": [
+      "entry_method",
+      "digitalization"
+    ],
+    "numeric": [
+      "abs_amount",
+      "amount_zero",
+      "empty_name",
+      "recurring",
+      "hour",
+      "day_of_week",
+      "day_of_month"
+    ]
+  },
+  "xgboost_params": {
+    "n_estimators": 300,
+    "max_depth": 6,
+    "learning_rate": 0.1,
+    "subsample": 0.8,
+    "colsample_bytree": 0.5,
+    "tree_method": "hist",
+    "eval_metric": "mlogloss"
+  },
+  "heldout_test_metrics_model": "trained on the train split only, evaluated on the held-out test split",
+  "heldout_test_metrics": {
+    "minor": {
+      "accuracy": 0.933791380387258,
+      "macro_f1": 0.9176706917365157,
+      "weighted_f1": 0.9321855942748776
+    },
+    "major": {
+      "accuracy": 0.9456589631480324,
+      "macro_f1": 0.9209995329508656,
+      "weighted_f1": 0.9441822083605702
+    }
+  },
+  "library_versions": {
+    "python": "3.12.7",
+    "scikit-learn": "1.9.1",
+    "xgboost": "3.4.1",
+    "pandas": "3.1.1",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "joblib": "1.6.0"
+  }
+}

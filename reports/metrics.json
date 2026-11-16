@@ -1,0 +1,168 @@
+{
+  "minor": {
+    "accuracy": 0.933791380387258,
+    "macro_f1": 0.9176706917365157,
+    "weighted_f1": 0.9321855942748776,
+    "per_class": {
+      "atm": {
+        "precision": 0.9722222222222222,
+        "recall": 1.0,
+        "f1-score": 0.9859154929577465,
+        "support": 70.0
+      },
+      "betting": {
+        "precision": 0.9239130434782609,
+        "recall": 0.85,
+        "f1-score": 0.8854166666666666,
+        "support": 100.0
+      },
+      "hairdresser": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1-score": 0.9333333333333333,
+        "support": 24.0
+      },
+      "multimedia": {
+        "precision": 0.9375,
+        "recall": 0.974025974025974,
+        "f1-score": 0.9554140127388535,
+        "support": 308.0
+      },
+      "others_shopping": {
+        "precision": 0.9166666666666666,
+        "recall": 0.5641025641025641,
+        "f1-score": 0.6984126984126984,
+        "support": 39.0
+      },
+      "pharmacies": {
+        "precision": 0.96,
+        "recall": 0.9230769230769231,
+        "f1-score": 0.9411764705882353,
+        "support": 26.0
+      },
+      "refund": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 24.0
+      },
+      "restaurants": {
+        "precision": 0.9112903225806451,
+        "recall": 0.8968253968253969,
+        "f1-score": 0.904,
+        "support": 252.0
+      },
+      "supermarkets": {
+        "precision": 0.9294354838709677,
+        "recall": 0.9850427350427351,
+        "f1-score": 0.9564315352697096,
+        "support": 468.0
+      },
+      "tolls_gas_stations": {
+        "precision": 0.975,
+        "recall": 0.9069767441860465,
+        "f1-score": 0.9397590361445783,
+        "support": 86.0
+      },
+      "transport_means": {
+        "precision": 0.9221556886227545,
+        "recall": 0.9112426035502958,
+        "f1-score": 0.9166666666666666,
+        "support": 169.0
+      },
+      "travel_means": {
+        "precision": 0.9375,
+        "recall": 0.8571428571428571,
+        "f1-score": 0.8955223880597015,
+        "support": 35.0
+      },
+      "accuracy": 0.933791380387258,
+      "macro avg": {
+        "precision": 0.9488069522867931,
+        "recall": 0.8952863164960659,
+        "f1-score": 0.9176706917365157,
+        "support": 1601.0
+      },
+      "weighted avg": {
+        "precision": 0.9338130162539429,
+        "recall": 0.933791380387258,
+        "f1-score": 0.9321855942748776,
+        "support": 1601.0
+      }
+    }
+  },
+  "major": {
+    "accuracy": 0.9456589631480324,
+    "macro_f1": 0.9209995329508656,
+    "weighted_f1": 0.9441822083605702,
+    "per_class": {
+      "entertainment": {
+        "precision": 0.9781553398058253,
+        "recall": 0.9877450980392157,
+        "f1-score": 0.9829268292682927,
+        "support": 408.0
+      },
+      "finance": {
+        "precision": 0.9722222222222222,
+        "recall": 1.0,
+        "f1-score": 0.9859154929577465,
+        "support": 70.0
+      },
+      "groceries": {
+        "precision": 0.9294354838709677,
+        "recall": 0.9850427350427351,
+        "f1-score": 0.9564315352697096,
+        "support": 468.0
+      },
+      "none": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 24.0
+      },
+      "restaurants_bars_cafes": {
+        "precision": 0.9112903225806451,
+        "recall": 0.8968253968253969,
+        "f1-score": 0.904,
+        "support": 252.0
+      },
+      "self_care": {
+        "precision": 0.9782608695652174,
+        "recall": 0.9,
+        "f1-score": 0.9375,
+        "support": 50.0
+      },
+      "shopping": {
+        "precision": 0.9166666666666666,
+        "recall": 0.5641025641025641,
+        "f1-score": 0.6984126984126984,
+        "support": 39.0
+      },
+      "transportation": {
+        "precision": 0.9433198380566802,
+        "recall": 0.9137254901960784,
+        "f1-score": 0.9282868525896414,
+        "support": 255.0
+      },
+      "travel": {
+        "precision": 0.9375,
+        "recall": 0.8571428571428571,
+        "f1-score": 0.8955223880597015,
+        "support": 35.0
+      },
+      "accuracy": 0.9456589631480324,
+      "macro avg": {
+        "precision": 0.9518723047520249,
+        "recall": 0.9005093490387609,
+        "f1-score": 0.9209995329508656,
+        "support": 1601.0
+      },
+      "weighted avg": {
+        "precision": 0.945525299263574,
+        "recall": 0.9456589631480324,
+        "f1-score": 0.9441822083605702,
+        "support": 1601.0
+      }
+    }
+  }
+}
