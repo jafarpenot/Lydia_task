@@ -36,6 +36,24 @@ and write a README (approach, results, how to run training and the API). Deliver
 3. **Major for `refund`.** All 123 refund rows have an empty `major_category`. Options: extra class (`refund`/`none`), or exclude them from the major task.
 4. Whether Levenshtein/fuzzy name clustering adds anything over character n-gram TF-IDF (measure it).
 
+## README checklist (document everything clearly at the end)
+
+- Setup: uv, Python 3.12, `brew install libomp` on macOS (XGBoost), what happens without it.
+- Approach: refund as a deterministic rule (amount > 0, 123/123); XGBoost on the 11 other classes; major derived from minor via the strict hierarchy (refund -> `none`).
+- Features and why: char 2-4-gram presence of the normalized merchant name (2,000 cap), amount, entry method (rare values grouped), digitalization, recurring, empty-name, hour/weekday/day-of-month. Dropped columns and why (see EDA notes).
+- Dedup on `ref_id` (120 exact duplicates) before splitting.
+- Label noise and the ~96% ceiling; the error analysis; the structured-features ablation (name alone is as good as everything).
+- **Evaluation caveats (decided to leave as is for now, document honestly):**
+  - Only a train/test split was used, no validation set. The test set was never used to fit or tune (fixed hyper-parameters, no early stopping), but the error analysis and the ablation were done on test rows.
+    Any future model/feature decision based on them would leak into the test score.
+  - Planned fix: keep the test set sealed; do model selection, ablations and error analysis with 5-fold stratified CV on the training part (mean +- std), evaluate on test once at the end.
+    Alternative: a 60/20/20 split (noisier for small classes: 24 to 39 rows per class on a 20% slice).
+  - Single split of 1,601 test rows: per-class numbers and differences under about 1 point are not reliable; no confidence intervals yet.
+  - A random split has only 5.7% unseen merchants; performance on new merchants is worse (29% error vs 4-7%). Grouped-by-merchant and temporal splits still to evaluate.
+- Ideas not done: see `notebooks/02_modeling.ipynb`, section 6.
+- Production notes: pickle tied to library versions (recorded in metadata), parity tests, monitoring and drift, retraining, new merchants, feedback loop, portable formats.
+- Email answers: time spent and quality rating.
+
 ## Key EDA findings (details in `notebooks/01_eda.ipynb`, section 12)
 
 - 8,121 rows, 2026-03-13 to 2026-06-10. Strict minor to major hierarchy; `refund` has empty major.
