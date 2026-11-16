@@ -178,6 +178,7 @@ docker run --rm -p 8000:8000 txlabel
 ```
 
 The image installs the locked dependencies and serves the committed model.
+Note: the Dockerfile was written but **not built or run** by the author (the Docker daemon was not running on the development machine); the non-Docker path above was tested from a fresh clone.
 
 ## Repository layout
 
