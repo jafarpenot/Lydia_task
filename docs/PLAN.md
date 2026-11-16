@@ -16,7 +16,7 @@ and write a README (approach, results, how to run training and the API). Deliver
 | 5. Error analysis | brief version done (in notebook 02, section 5); ideas listed in its section 6 |
 | 6. Training pipeline in `src/txlabel/` + CLI | done: `make train` (train/eval on held-out test, then refit on all rows for the saved model; metadata + reports) |
 | 7. Prediction API (FastAPI) + tests | done: `make serve`; `POST /predict` (one category + confidence + derived major), `GET /health`, `GET /model-info`; 33 tests pass |
-| 8. README, Dockerfile, final fresh-clone check | done, except: Dockerfile not built/run (Docker daemon was off); fresh clone tested with uv (33 tests pass, API answers, retrain reproduces 0.9338 / 0.9177) and with pip + requirements.txt (model loads and predicts). Remaining: GitHub push, email |
+| 8. README, Dockerfile, final fresh-clone check | done: fresh clone from GitHub tested with uv, pip and Docker (image builds, container serves the committed model, same predictions). Docker is Option 1 in the README. Remaining: email (user) |
 
 ## Decisions made
 

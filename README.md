@@ -8,14 +8,30 @@ A merchant-name lookup baseline gets 0.909 / 0.886. EDA suggests a realistic cei
 
 ## Quick start
 
+A trained model is committed (`models/`), so the API works right after cloning, without training first.
+
+### Option 1: Docker (easiest, no other dependency)
+
 ```bash
-brew install libomp     # macOS only, once: XGBoost needs the OpenMP runtime
-uv sync                 # creates .venv from uv.lock (Python 3.12)
-make serve              # API on http://127.0.0.1:8000 (interactive docs: /docs)
+git clone https://github.com/jafarpenot/Lydia_task.git && cd Lydia_task
+docker build -t txlabel .                  # about 3 minutes the first time
+docker run --rm -p 8000:8000 txlabel       # API on http://127.0.0.1:8000 (interactive docs: /docs)
 ```
 
-A trained model is committed (`models/`), so the API works right after cloning. No `uv`? `pip install -r requirements.txt` and
-`pip install -e .` work too (Python 3.12).
+The image installs the locked dependencies (including the OpenMP runtime XGBoost needs) and serves the committed model.
+It is large (about 2.3 GB, mostly the Python scientific stack) and runs as root: fine for a local demo, to be slimmed down and hardened for production.
+
+### Option 2: local Python (needed for training, notebooks and tests)
+
+```bash
+brew install libomp     # macOS only, once: XGBoost needs the OpenMP runtime (Linux: apt install libgomp1)
+uv sync                 # creates .venv from uv.lock (Python 3.12)
+make serve              # API on http://127.0.0.1:8000
+```
+
+No `uv`? `pip install -r requirements.txt` and `pip install -e .` work too (Python 3.12).
+
+### Calling the API
 
 Request and response:
 
@@ -164,21 +180,11 @@ Per-class precision/recall/F1 for both targets: `reports/classification_report.t
 - **Model serving:** the model is loaded once at startup; `/health` reports readiness (503 until a model is available) and `/model-info` exposes what is running.
   Inference is one small DataFrame per request (about 50 ms per request with curl overhead on a laptop); batch inference would be a straightforward extension.
 - **Reproducibility:** `uv.lock` pins dependencies, fixed seed, data hash and library versions are stored in the model metadata, tests cover training reproducibility and parity.
-- **Packaging:** a `Dockerfile` is provided (see below). For other environments a portable format (e.g. ONNX) would remove the dependency on matching library versions.
+- **Packaging:** a `Dockerfile` is provided (see Quick start; built and run from a fresh clone). For other environments a portable format (e.g. ONNX) would remove the dependency on matching library versions.
 - **Monitoring and retraining (not implemented):** log predictions and confidence (without personal data), track the share of unseen merchant names and the confidence distribution as drift
   signals, and retrain on a schedule or on drift. New merchants are the main failure mode, so a feedback loop (user corrections or manual review of low-confidence predictions) would
   feed the next training set.
 - **Privacy:** member identifiers and names are not used as features and are ignored by the API.
-
-## Docker
-
-```bash
-docker build -t txlabel .
-docker run --rm -p 8000:8000 txlabel
-```
-
-The image installs the locked dependencies and serves the committed model.
-Note: the Dockerfile was written but **not built or run** by the author (the Docker daemon was not running on the development machine); the non-Docker path above was tested from a fresh clone.
 
 ## Repository layout
 
